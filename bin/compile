@@ -16,8 +16,8 @@ if [[ -f $ENV_DIR/COSA_SSH_KEY && -f $ENV_DIR/IPUNG_SSH_KEY ]]; then
   fi
 
   # Load the private key into custom_key file.
-  cp $ENV_DIR/COSA_SSH_KEY ~/.ssh/cosa_key
-  cp $ENV_DIR/IPUNG_SSH_KEY ~/.ssh/ipung_key
+  base64 --decode $ENV_DIR/COSA_SSH_KEY > ~/.ssh/cosa_key
+  base64 --decode $ENV_DIR/IPUNG_SSH_KEY > ~/.ssh/ipung_key
 
   # Change the permissions on the file to
   # be read-only for this user.
