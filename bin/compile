@@ -25,6 +25,7 @@ if [[ -f $ENV_DIR/COSA_SSH_KEY && -f $ENV_DIR/IPUNG_SSH_KEY ]]; then
   chmod 400 ~/.ssh/ipung_key
 
   echo -e "Host cosa.github.com\n"\
+	  "  HostName github.com\n"\
 	  "  IdentityFile ~/.ssh/cosa_key\n"\
 	  "  IdentitiesOnly yes\n"\
 	  "  UserKnownHostsFile=/dev/null\n"\
@@ -32,6 +33,7 @@ if [[ -f $ENV_DIR/COSA_SSH_KEY && -f $ENV_DIR/IPUNG_SSH_KEY ]]; then
 	  >> ~/.ssh/config
 
   echo -e "Host ipung.github.com\n"\
+	  "  HostName github.com\n"\
 	  "  IdentityFile ~/.ssh/ipung_key\n"\
 	  "  IdentitiesOnly yes\n"\
 	  "  UserKnownHostsFile=/dev/null\n"\
