@@ -7,34 +7,25 @@ Based on [http://stackoverflow.com/a/29677091/3303182](http://stackoverflow.com/
 ## Usage
 
 - Add the buildpack to your app:
-  `heroku buildpacks:add --index 1 https://github.com/simon0191/custom-ssh-key-buildpack`
+  `Heroku buildpacks:add --index 1 https://github.com/abtion/custom-ssh-key-buildpack --app fguplaner-backend-ci`
 
 - Generate a new SSH key (https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
 
   For this example I will suppose that you named the key `deploy_key`.
 
-- Add the ssh key to your private repository account.
+- Add the ssh key as a deploy key to the private repository
 
-  * Github: https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/
+  * Github: https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys
 
-  * Bitbucket: https://confluence.atlassian.com/bitbucket/add-an-ssh-key-to-an-account-302811853.html
+- Encode the private key as a base64 string and add it as the `IPUNG_SSH_KEY` environment variable of the Heroku app.
+- Encode the private key as a base64 string and add it as the `COSA_SSH_KEY` environment variable of the Heroku app.
 
-- Encode the private key as a base64 string and add it as the `CUSTOM_SSH_KEY` environment variable of the heroku app.
-
-- Make a comma separated list of the hosts for which the ssh key should be used and add it as the `CUSTOM_SSH_KEY_HOSTS` environment variable of the heroku app.
-
+## Add the deploy key to Heroku configuration
   ```
   # OSX
-  $ heroku config:set CUSTOM_SSH_KEY=$(base64 --input ~/.ssh/deploy_key) CUSTOM_SSH_KEY_HOSTS=bitbucket.org,github.com
+  $ Heroku config:set IPUNG_SSH_KEY=$(base64 --input nordplaner_ipung_deploy_key.rsa) --app fguplaner-backend-ci
+  $ Heroku config:set COSA_SSH_KEY=$(base64 --input nordplaner_cosa_deploy_key.rsa) --app fguplaner-backend-ci
 
-  # Linux
-  $ heroku config:set CUSTOM_SSH_KEY=$(base64 ~/.ssh/deploy_key) CUSTOM_SSH_KEY_HOSTS=bitbucket.org,github.com
   ```
 
 - Deploy your app and enjoy :)
-
-## Motivation
-
-I needed to install dependencies stored in private repositories but I didn't want to hardcode passwords in the code.
-I found a solution in [StackOverflow](http://stackoverflow.com/a/29677091/3303182) but it only worked for the node buildpack
-so I decided to create this technology agnostic buildpack.
